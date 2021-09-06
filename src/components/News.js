@@ -8,7 +8,7 @@ import NewsItem from './NewsItem'
 export default class News extends Component {
 
 
-    articles = [
+   /* articles = [
         {
         "source": { "id": "engadget","name": "Engadget"},
         
@@ -33,39 +33,84 @@ export default class News extends Component {
         "content": "Australian buy now, pay later (BNPL) company Zip this week acquired South Africa-based BNPL player Payflex for an undisclosed amount.\r\nIt’s a piece of news that once again highlights the hype around … [+3843 chars]"
         }
     ]
+    */
 
 
 
 
     constructor(){
         super();
-        console.log("Hello I am a constructor from News component");
+        //console.log("Hello I am a constructor from News component");
         this.state = {
-            articles: this.articles,
-            loading: false
+            articles: [],
+            loading: false,
+            page:1
         }
 
     }
 async omponentDidMount() {
-    console.log("cdm");
-    let url="https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=1b1c0528481a4e9785788e102c6374b3"
-    let data =await fetch(url);
-    let parseData = await data.json()
-    console.log(data);
-    this.setState({articles: parseData.articles});
+   // console.log("cdm");
+    let url= `https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=1b1c0528481a4e9785788e102c6374b3&page=1pageSize=20`;
+    let data = await fetch(url);
+    let parsedData = await data.json()
+    console.log(parsedData);
+    this.setState({articles: parsedData.articles , totalResults: parsedData.totalResults});
 }
+handlePreviousClick =async () => {
+    console.log("previous");
+    //console.log("Next");
+
+    //console.log("cdm");
+    let url=`https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=1b1c0528481a4e9785788e102c6374b3&page=${this.state.page -1}&pageSize=20`;
+    let data =await fetch(url);
+    let parsedData = await data.json()
+    console.log(parsedData);
+    //this.setState({articles: parsedData.articles})
+
+    this.setState({
+        page: this.state.page -1,
+        articles: parsedData.articles
+    })
+}
+
+handleNextClick =async () => {
+    console.log("Next");
+
+    //console.log("cdm");
+    if(this.state.page + 1 >Math.ceil(this.state.totalResults/20)){
+
+    }
+    else{
+    let url=`https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=1b1c0528481a4e9785788e102c6374b3&page=${this.state.page +1}&pageSize=20`;
+    let data =await fetch(url);
+    let parsedData = await data.json()
+    console.log(parsedData);
+    //this.setState({articles: parsedData.articles})
+
+    this.setState({
+        page: this.state.page +1,
+        articles: parsedData.articles
+    })
+}
+}
+
+
 
     render() {
         return (
-            <div className="container my-3">
+            <div className=" my-3">
                 <h2>Top headlines </h2>
                
                 <div className="row"></div>
                     {this.state.articles.map((element)=>{
                        return <div className="col-md-4" key={element.url}>
-                        <NewsItem title={!element.title?element.title.slice(0, 45):""} description={!element.description?element.description.slice(0,88):""} imageUrl={element.urlToImage} newsUrl={element.url}></NewsItem>
+                        <NewsItem title={element.title?element.title.slice(0, 45):""} description={element.description?element.description.slice(0,88):""} imageUrl={element.urlToImage} newsUrl={element.url}></NewsItem>
                         </div>
                 })}
+                <div className="contianer d-flex justify-content-between">
+                <button disabled={this.state.page<=1} type="button" class="btn btn-dark" onClick={this.handlePreviousClick}>&larr; Previous</button>
+                <button type="button" className="btn btn-dark" onClick={this.handleNextClick}>Next &rarr;</button>
+                </div>
                 
                 
                 
