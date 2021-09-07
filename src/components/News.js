@@ -81,7 +81,7 @@ handlePreviousClick =async () => {
     //console.log("Next");
 
     //console.log("cdm");
-    let url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=business&apiKey=1b1c0528481a4e9785788e102c6374b3&page=${this.state.page -1}&pageSize=${this.props.pageSize}`;
+    let url=`https://newsapi.org/v2/top-headlines?country=in&category=${this.props.country}&apiKey=1b1c0528481a4e9785788e102c6374b3&page=${this.state.page -1}&pageSize=${this.props.pageSize}`;
     this.setState({loading:true});
     let data =await fetch(url);
     let parsedData = await data.json()
