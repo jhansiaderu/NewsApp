@@ -47,7 +47,7 @@ export default class News extends Component {
     country :PropTypes.string,
     pageSize :PropTypes.number,
     category :PropTypes.string,
-}
+    }
 
 
 
@@ -65,9 +65,9 @@ export default class News extends Component {
         }
 
     }
-async omponentDidMount() {
-   // console.log("cdm");
-    let url= `https://newsapi.org/v2/top-headlines?country=in&category=${this.props.category}&apiKey=1b1c0528481a4e9785788e102c6374b3&page=1&pageSize=${this.props.pageSize}`;
+
+async updateNews(pageNo){
+    const url= `https://newsapi.org/v2/top-headlines?country=in&category=${this.props.category}&apiKey=1b1c0528481a4e9785788e102c6374b3&page=${this.state.page}&pageSize=${this.props.pageSize}`;
     this.setState({loading:true});
     let data = await fetch(url);
     let parsedData = await data.json()
@@ -75,54 +75,74 @@ async omponentDidMount() {
     this.setState({articles: parsedData.articles,
             totalResults: parsedData.totalResults,
             loading: false})
+
+}
+async omponentDidMount() {
+   // console.log("cdm");
+    //let url= `https://newsapi.org/v2/top-headlines?country=in&category=${this.props.category}&apiKey=1b1c0528481a4e9785788e102c6374b3&page=1&pageSize=${this.props.pageSize}`;
+    //this.setState({loading:true});
+    //let data = await fetch(url);
+    //let parsedData = await data.json()
+    //console.log(parsedData);
+    //this.setState({articles: parsedData.articles,
+      //      totalResults: parsedData.totalResults,
+       //     loading: false})
+       this.updateNews();
+    
 }
 handlePreviousClick =async () => {
-    console.log("previous");
+    //console.log("previous");
     //console.log("Next");
 
     //console.log("cdm");
-    let url=`https://newsapi.org/v2/top-headlines?country=in&category=${this.props.country}&apiKey=1b1c0528481a4e9785788e102c6374b3&page=${this.state.page -1}&pageSize=${this.props.pageSize}`;
-    this.setState({loading:true});
-    let data =await fetch(url);
-    let parsedData = await data.json()
-    console.log(parsedData);
+    //let url=`https://newsapi.org/v2/top-headlines?country=in&category=${this.props.country}&apiKey=1b1c0528481a4e9785788e102c6374b3&page=${this.state.page -1}&pageSize=${this.props.pageSize}`;
+    //this.setState({loading:true});
+   // let data =await fetch(url);
+   // let parsedData = await data.json()
+   // console.log(parsedData);
     //this.setState({articles: parsedData.articles})
 
-    this.setState({
-        page: this.state.page -1,
-        articles: parsedData.articles,
-        loading :false
-    })
+    //this.setState({
+    //    page: this.state.page -1,
+    //    articles: parsedData.articles,
+    //    loading :false
+    //})
+    this.setState({page:this.state.page +1});
+    this.updateNews();
 }
 
 handleNextClick =async () => {
     console.log("Next");
 
     //console.log("cdm");
-    if(!this.state.page + 1 > Math.ceil(this.state.totalResults/this.props.pageSize))
+    //if(!this.state.page + 1 > Math.ceil(this.state.totalResults/this.props.pageSize))
 
-    {
-    let url=`https://newsapi.org/v2/top-headlines?country=us&category=${this.props.category}&apiKey=1b1c0528481a4e9785788e102c6374b3&page=${this.state.page +1}&pageSize=${this.props.pageSize}`;
-    this.setState({loading:true});
-    let data =await fetch(url);
-    let parsedData = await data.json()
+    //{
+    //let url=`https://newsapi.org/v2/top-headlines?country=us&category=${this.props.category}&apiKey=1b1c0528481a4e9785788e102c6374b3&page=${this.state.page +1}&pageSize=${this.props.pageSize}`;
+    //this.setState({loading:true});
+    //let data =await fetch(url);
+    //let parsedData = await data.json()
     //console.log(parsedData);
-    //this.setState({loading:false});
+    //--this.setState({loading:false});
 
     //this.setState({articles: parsedData.articles})
 
-    this.setState({
-        page: this.state.page +1,
-        articles: parsedData.articles,
-        loading : false,
+    //this.setState({
+    //    page: this.state.page +1,
+    //    articles: parsedData.articles,
+     //   loading : false,
         
-    })
+    //})
+    this.setState({page:this.state.page +1});
+    this.updateNews();
+
+
 }
-}
 
 
 
-    render() {
+
+render() {
         return (
             <div className=" my-3">
                 <h2 className="text-center" style={{margin:'40px 0px'}}>Top headlines </h2>
