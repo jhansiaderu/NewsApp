@@ -9,7 +9,8 @@ export default class NewsItem extends Component {
                 <div  style={ {
                     display:'flex',
                     justifyContent:'felx-end',
-                    position:'absolute',right:'0'
+                    position:'absolute',
+                    right:'0'
                 }
 
                 }
