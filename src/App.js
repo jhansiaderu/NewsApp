@@ -15,8 +15,9 @@ import {
 
 export default class App extends Component {
  // a = 'Jhansi';
+ pageSize=7;
   render() {
-    const pageSize=7;
+     
     return (
       <div>
         <Router>
